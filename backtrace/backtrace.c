@@ -75,10 +75,13 @@ void myfun3()
 
 void test()
 {
+	setPrintTrace(print_trace);
+	func();
 	func1();
-	func2();
-	func3();
-
+	while(1)
+	{
+		sleep(2);
+	}
 }
 
 void signal_handle(int signo)
@@ -94,7 +97,8 @@ int main(int argc,char *argv[])
 	signal(SIGSEGV,signal_handle);
 	//dummy_function();
 	printf("main start\n");
-	myfun();
+	//myfun();
+	test();
 	return 0;
 }
 

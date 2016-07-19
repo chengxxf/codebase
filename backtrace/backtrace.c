@@ -1,8 +1,12 @@
 #include <execinfo.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "test.h"
+#include "backtrace.h"
 
+#define CRASH 1
+#define SIZE 100
 void print_trace(void)
 {
 
@@ -11,7 +15,7 @@ void print_trace(void)
 	char **strings;
 	size_t i;
 
-	size=backtrace(array,10);
+	size=backtrace(array,SIZE);
 
 	strings=backtrace_symbols(array,size);
 	if(NULL==strings)
@@ -28,7 +32,7 @@ void print_trace(void)
 		printf("%s \n",strings[i]);
 
 	}
-
+	
 	free(strings);
 	strings=NULL;
 
@@ -36,23 +40,61 @@ void print_trace(void)
 
 void dummy_function()
 {
-	print_trace();
+
+}
+
+void myfun()
+{
+	printf("[func ] myfun %x \n",myfun);
+	myfun1();
+}
+
+void myfun1()
+{
+	printf("[func ] myfun1 %x \n",myfun1);
+	myfun2();
+}
+
+
+void myfun2()
+{
+	printf("[func ] myfun2 %x \n",myfun2);	
+	myfun3();
+}
+
+void myfun3()
+{
+	printf("[func ] myfun3 %x \n",myfun3);	
+#if CRASH
+	char *p=0;
+	*(p+10000)=9;
+#else
+
+#endif
 }
 
 void test()
 {
-	func();
 	func1();
 	func2();
 	func3();
 
 }
 
+void signal_handle(int signo)
+{
+	printf("\n===>>>catch signal %d (%s)<<<=====\n",
+					signo,strsignal(signo));
+	print_trace();
+	signal(signo, SIG_DFL);
+}
+
 int main(int argc,char *argv[])
 {
-
-
-	dummy_function();
+	signal(SIGSEGV,signal_handle);
+	//dummy_function();
+	printf("main start\n");
+	myfun();
 	return 0;
 }
 

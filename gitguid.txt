@@ -21,3 +21,8 @@ In fact, this is on the http authentication format. You could set a password too
 https://youruser:password@github.com/user/repo.git
 You should be aware that if you do this, your github password will be stored in plaintext in your .git directory, which is obviously undesirable.
 ###################################################
+
+#########################
+Changing a remote's URL
+https://help.github.com/articles/changing-a-remote-s-url/
+########################

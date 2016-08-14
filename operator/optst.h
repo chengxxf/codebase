@@ -3,11 +3,11 @@
 
 class Sale_data{
 
-int price;
 public:
-	Sale_data(int n);
-
-
-}
+	int price;
+	Sale_data(int n=0);
+	
+	void showPrice();
+};
 
 #endif

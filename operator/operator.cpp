@@ -1,6 +1,14 @@
 
 #include <stdio.h>
+#include <iostream>
+#include <typeinfo>
+#include <iterator>
 
+#define TST_CPLUS
+
+#ifdef TST_CPLUS
+#include "optst.h"
+#endif
 void test_pointer_def()
 {
 	int *a1,b1;
@@ -14,11 +22,29 @@ void test_pointer_def()
 	printf("b2 %d and a1 %d is pointer \n",b2,a1);
 }
 
+void typename_test()
+{
+	int temp(1);
+	printf("int temp(1) is %d \n",temp);
+}
+template<typename IterT>
+void workWithIterator(IterT iter)
+{
+	typename std::iterator_traits<IterT>::value_type temp(*iter);
+}
+
 int main(int argc,char *argv[])
 {
 	printf("operator begin \n");
 	test_pointer_def();
-
+	typename_test();
+#ifdef TST_CPLUS
+	Sale_data data(1) ,data1(2),data2(3);
+	data.showPrice();
+	data1.showPrice();
+	data2.showPrice();
+	
+#endif
 
 	return 0;
 }

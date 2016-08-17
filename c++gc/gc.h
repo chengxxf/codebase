@@ -311,7 +311,7 @@ bool GCPtr<T,size>::collect(){
 }
 
 template <class T,int size>
-T *GCPtr<T,size>::operator=(T *t){
+T *GCPtr<T,size>::operator-(T *t){
 	list<GCInfo<T> >::iterator p;
 
 	p=findPtrInfo(addr);
@@ -369,6 +369,38 @@ void GCPtr<T,size>::showlist(){
 template <class T,int size>
 typename list<GCInfo<T> >::iterator
 GCPtr<T,size>::findPtrInfo(T *ptr){
-	list<GCInfo<>>
+	list<GCInfo<T> >::iterator p;
 
+	for(p=gclist.begin();p!=gclist.end();p++)
+		if(p->memPtr==ptr)
+			return p;
+
+	return p;
 }
+
+// clear gclist when program exits.
+
+template <class T,int size>
+void GCPtr<T ,size>::shutdown(){
+	if(gclistSize()==0) return;
+	
+	list<GCInfo<T> >::iterator p;
+	
+	for(p=gclist.begin();p!=gclist.end();p++){
+		p->refcount=0;
+	}
+	
+#ifdef DISPLAY
+	cout<<"Before collecting for shutdown() for "
+		<<typeid(T).name()<<"\n" ;
+#endif
+
+	collect();
+
+#ifdef DISPLAY
+	cout<<"After collecting for shutdown() for "
+		<<typeid(T).name()<<"\n";
+#endif
+}
+
+

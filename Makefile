@@ -5,7 +5,7 @@ all:pointer${TARGET_SUFIX}
 	echo 
 	
 pointer${TARGET_SUFIX}: pointer.cpp
-	gcc -o pointer pointer.cpp
+	gcc -o pointer pointer.cpp -lstdc++
 
 clean:
 	rm pointer 

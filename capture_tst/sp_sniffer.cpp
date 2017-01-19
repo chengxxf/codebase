@@ -6,7 +6,8 @@
 #include <ctype.h>
 #include <iostream>
 #include <pthread.h>
-
+#include "pktRxFactory.h"
+#include "abstractRx.h"
 
 #define MAXBYTE2CAPTURE 2048
 
@@ -23,15 +24,38 @@ void processPacket(u_char *arg,const struct pcap_pkthdr * pkthdr,const u_char *p
 
 }
 
+int g_mainLoop=1;
 pthread_t tid_cap;
 S_THREAD_ARG cap_arg;
+
+void shutdown_main()
+{
+	g_mainLoop=0;
+}
 
 void *capture_pkt(void *arg)
 {
 
 	S_THREAD_ARG *thArg=(S_THREAD_ARG *)arg;
 	pcap_t *handle=thArg->handle;
+	PktRxFactory rxFactory;
+	
+	AbstractRx *pRx=rxFactory.createPktRx();
+	if(!pRx)
+	{
+		std::cerr<<"create rx packect object err"<<std::endl;
+		return 0;
 
+	}
+	if(0!=pRx->init())
+	{
+		std::cerr<<"rx packet init err"<<std::endl;
+	}
+	pRx->RxLoop();
+
+	delete pRx;
+
+	shutdown_main();
 }
 
 
@@ -91,7 +115,7 @@ int main(int argc,char *argv[])
 	
 	if(err!=0)
 		printf(" can't create thread \n");
-	while(1)
+	while(g_mainLoop)
 	{
 		sleep(2);
 	}

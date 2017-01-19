@@ -1,11 +1,17 @@
 .PHONY:clean
-all: operator.o optst.o
-	g++ -o out operator.o optst.o
+
+OBJS=operator.o\
+	 optst.o\
+	 str_tst.o
+all: $(OBJS)
+	g++ -o out $^
 optst.o: optst.cpp optst.h
 	g++ -c optst.cpp -o optst.o
 
-operator.o: operator.cpp
-	g++ -c operator.cpp -o operator.o
+operator.o: oper_main.cpp
+	g++ -c oper_main.cpp -o operator.o
+str_tst.o:str_tst.cpp str_tst.h
+	g++ -c str_tst.cpp -o str_tst.o
 
 clean:
 	rm -rf *.o

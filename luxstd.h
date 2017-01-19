@@ -19,4 +19,6 @@ typedef volatile signed char VINT1;
 
 
 
+#define STRUCT_OFFSETOF(StructType,Member)  (UINT4)(&(((StructType *)0)->Member)) 
+
 #endif

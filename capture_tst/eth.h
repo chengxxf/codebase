@@ -1,4 +1,8 @@
 #ifndef ETHERNET_H
+
+
+#include <arpa/inet.h>
+
 #define ETHER_ADDR_LEN 6
 
 
@@ -55,7 +59,7 @@ struct sniff_tcp{
 	u_short th_urp;
 };
 
-#define SIZE_ETHERNET　14
+#define SIZE_ETHERNET  14
 
 
 #endif

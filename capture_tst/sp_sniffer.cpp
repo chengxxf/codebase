@@ -28,9 +28,22 @@ int g_mainLoop=1;
 pthread_t tid_cap;
 S_THREAD_ARG cap_arg;
 
-void shutdown_main()
+# define weak_alias(name, aliasname) _weak_alias (name, aliasname)
+# define _weak_alias(name, aliasname) \
+  extern __typeof (name) aliasname __attribute__ ((weak, alias (#name)));
+
+extern "C" {
+void shutdown_main() __attribute__((weak));
+
+void _socket_1();
+void alias_shutdown_main() __attribute__((alias("shutdown_main")));
+void shutdown_main() 
 {
 	g_mainLoop=0;
+}
+
+weak_alias(_socket_1,socket_1)
+void _socket_1(){}
 }
 
 void *capture_pkt(void *arg)
@@ -123,3 +136,8 @@ int main(int argc,char *argv[])
 
 	return 0;
 }
+
+
+
+
+

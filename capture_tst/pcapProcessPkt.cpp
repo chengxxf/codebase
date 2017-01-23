@@ -15,7 +15,7 @@ void (*PcapProcessPkt::m_processPkt)(u_char *,const struct pcap_pkthdr * ,const 
 PcapProcessPkt* PcapProcessPkt::s_pSelfObj=0;
 PcapProcessPkt::PcapProcessPkt()
 {
-
+	_mutex=PTHREAD_MUTEX_INITIALIZER;
 
 }
 void PcapProcessPkt::initProcessPkt()
@@ -23,6 +23,16 @@ void PcapProcessPkt::initProcessPkt()
 
 	//m_processPkt=selfProcessPkt;
 	s_pSelfObj=this;
+}
+
+void PcapProcessPkt::lockObserver()
+{
+	pthread_mutex_lock(&_mutex);
+}
+
+void PcapProcessPkt::unlockObserver()
+{
+	pthread_mutex_unlock(&_mutex);
 }
 
 void PcapProcessPkt::selfProcessPkt(u_char *arg,const struct pcap_pkthdr * pkthdr,const u_char *packet)
@@ -50,7 +60,9 @@ void PcapProcessPkt::selfProcessPkt(u_char *arg,const struct pcap_pkthdr * pkthd
 	
 	payload=(u_char *)(packet + SIZE_ETHERNET + size_tcp);
 
-
+	s_pSelfObj->lockObserver();
+	s_pSelfObj->unlockObserver();
+	
 	return ;
 
 /*

@@ -8,6 +8,7 @@
 #include <pthread.h>
 #include "pktRxFactory.h"
 #include "abstractRx.h"
+#include "userser.h"
 
 #define MAXBYTE2CAPTURE 2048
 
@@ -27,6 +28,10 @@ void processPacket(u_char *arg,const struct pcap_pkthdr * pkthdr,const u_char *p
 int g_mainLoop=1;
 pthread_t tid_cap;
 S_THREAD_ARG cap_arg;
+
+pthread_t tid_usrSer;// server
+
+
 
 # define weak_alias(name, aliasname) _weak_alias (name, aliasname)
 # define _weak_alias(name, aliasname) \
@@ -124,7 +129,15 @@ int main(int argc,char *argv[])
 
 	int err;
 	cap_arg.handle=0;
-	err=pthread_create(&(tid_cap),0,&capture_pkt,&cap_arg);
+	if((err=pthread_create(&(tid_cap),0,&capture_pkt,&cap_arg))!=0)
+	{
+		printf("Create pthread error \n");
+	}
+
+	if((err=pthread_create(&(tid_usrSer),0,&UserServer::UserSerMain,&cap_arg))!=0)
+	{
+		printf("Create pthread error \n");
+	}
 	
 	if(err!=0)
 		printf(" can't create thread \n");

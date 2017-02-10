@@ -71,6 +71,7 @@ void *capture_pkt(void *arg)
 	}
 	pRx->RxLoop();
 
+	printf("capture end exit");
 	delete pRx;
 
 	shutdown_main();
@@ -146,7 +147,7 @@ int main(int argc,char *argv[])
 		sleep(2);
 	}
 
-
+	printf("main thread end\n");
 	return 0;
 }
 

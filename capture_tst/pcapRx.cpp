@@ -42,7 +42,7 @@ int PcapRx::init()
 	if(pcap_activate(_handle)){
 		std::cout <<"Activated!"<<std::endl;
 	}
-	printf("%s %d \n",__FUNCTION__,__LINE__);
+	printf("%s %s %d \n",__FILE__,__FUNCTION__,__LINE__);
 	if(_handle==NULL){
 		fprintf(stderr,"Couldn't open device %s : %s \n",dev,errbuf);
 		return (2);
@@ -77,8 +77,11 @@ void PcapRx::RxLoop()
 	 	return ;
 	}
 
+	PcapProcessPkt::initProcessPkt();
 	pcap_dispatch(_handle,5,PcapProcessPkt::m_processPkt,0);
 	pcap_loop(_handle,0,PcapProcessPkt::m_processPkt,0);
 	pcap_close(_handle);
 
+	
+	PcapProcessPkt::DeinitProcessPkt();
 }

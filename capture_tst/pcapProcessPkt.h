@@ -36,7 +36,8 @@ public:
 
 
 
-	void initProcessPkt();
+	static void initProcessPkt();
+	static void DeinitProcessPkt();
 
 	static  void selfProcessPkt(u_char *,const struct pcap_pkthdr * ,const u_char *);
 	

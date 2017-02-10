@@ -22,8 +22,27 @@ void PcapProcessPkt::initProcessPkt()
 {
 
 	//m_processPkt=selfProcessPkt;
-	s_pSelfObj=this;
+	if(!s_pSelfObj)
+		s_pSelfObj=new PcapProcessPkt();
 }
+
+void PcapProcessPkt::DeinitProcessPkt()
+{
+	static int i=0;
+
+
+	if(i>0) return;
+
+	if(s_pSelfObj)
+	{
+		delete s_pSelfObj;
+		s_pSelfObj=0;
+		
+	}
+	i++;
+
+}
+
 
 void PcapProcessPkt::lockObserver()
 {
@@ -39,7 +58,7 @@ void PcapProcessPkt::selfProcessPkt(u_char *arg,const struct pcap_pkthdr * pkthd
 {
 
 	int i;
-	fprintf(stdout,"Pcap Received Packet  \n");
+	//fprintf(stdout,"Pcap Received Packet  \n");
 
 	const struct sniff_ethernet *ethernet ;
 	const struct sniff_ip *ip;
@@ -60,8 +79,10 @@ void PcapProcessPkt::selfProcessPkt(u_char *arg,const struct pcap_pkthdr * pkthd
 	
 	payload=(u_char *)(packet + SIZE_ETHERNET + size_tcp);
 
+
 	s_pSelfObj->lockObserver();
 	s_pSelfObj->unlockObserver();
+	//fprintf(stdout,"Pcap Received Packet %d \n",__LINE__);
 	
 	return ;
 

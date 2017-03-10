@@ -16,6 +16,7 @@ class BlockHead:
 	u1Type=bytearray([0,0,0,0]);
 	u4Type=0;
 
+	uLen=0;
 	uReserve1=0;
 	uReserve2=0;
 	uReserve3=0;
@@ -39,7 +40,7 @@ class ConnectToSer:
 # the format is BlockHead
 			print len(data)
 			print isinstance(data,str)
-			format="!HH4B3I{0}s".format(len(data))
+			format="!HH4B4I{0}s".format(len(data))
 			print format
 
 			mystring="hello pack"
@@ -50,10 +51,12 @@ class ConnectToSer:
 			head.u1Type[0]=1
 			
 			testData="ok"
+			head.uLen=len(data);
 			str1=struct.pack(format,head.magic,head.sReserve1,head.u1Type[0],head.u1Type[1],head.u1Type[2],head.u1Type[3],
-				head.uReserve1,head.uReserve2,head.uReserve3,data)
+				head.uLen,head.uReserve1,head.uReserve2,head.uReserve3,data)
 
 			print str1
+			print repr(str1)
 			self.tcpClientSock.send(str1)
 			data=self.tcpClientSock.recv(BUFSIZE)
 

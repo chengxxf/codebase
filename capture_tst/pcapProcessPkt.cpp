@@ -1,5 +1,6 @@
 #include "pcapProcessPkt.h"
 #include <ctype.h>
+#include <iostream>
 
 
 void fakeProcessPkt(u_char * arg,const void * pkt ,const u_char *arg2)
@@ -24,6 +25,8 @@ void PcapProcessPkt::initProcessPkt()
 	//m_processPkt=selfProcessPkt;
 	if(!s_pSelfObj)
 		s_pSelfObj=new PcapProcessPkt();
+
+	setvbuf(stdout,0,_IONBF,BUFSIZ);
 }
 
 void PcapProcessPkt::DeinitProcessPkt()
@@ -57,8 +60,14 @@ void PcapProcessPkt::unlockObserver()
 void PcapProcessPkt::selfProcessPkt(u_char *arg,const struct pcap_pkthdr * pkthdr,const u_char *packet)
 {
 
+	static int count=0;
+	count++;
 	int i;
-	//fprintf(stdout,"Pcap Received Packet  \n");
+	
+	if(count%3==1){
+		//printf("Pcap Received Packet %d  \n",count);
+		//fflush(0);
+	}
 
 	const struct sniff_ethernet *ethernet ;
 	const struct sniff_ip *ip;

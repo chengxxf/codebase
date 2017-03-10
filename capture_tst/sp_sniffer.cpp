@@ -139,6 +139,10 @@ int main(int argc,char *argv[])
 	{
 		printf("Create pthread error \n");
 	}
+	else{
+
+		printf("Create user Server task....\n");
+	}
 	
 	if(err!=0)
 		printf(" can't create thread \n");

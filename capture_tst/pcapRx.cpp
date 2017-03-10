@@ -71,7 +71,7 @@ int PcapRx::init()
 
 void PcapRx::RxLoop()
 {
-	printf("call %s \n",__FUNCTION__);
+	printf("call PcapRx %s \n",__FUNCTION__);
 	if(1!=_hasInit){
 		std::cout <<" has not init  "<<std::endl;
 	 	return ;

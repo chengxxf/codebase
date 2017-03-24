@@ -9,6 +9,8 @@
 UserServer::UserServer()
 {
 	_hdrMismatch=0;
+	_bHdrPreHit=true;
+	_hdrMisCont=0;	
 
 }
 	
@@ -82,9 +84,11 @@ void *UserServer::UserSerMain(void *arg)
 	
 		int byteCnt=0;
 		int curLeft=0;
+		curSer.setAcceptFD(accept_fd);
 		while((byteCnt=read(accept_fd,buffer+curLeft,MAXSIZE-curLeft))>0){
 
 
+			// thease curLeft bytes not deal by app
 			curLeft=curSer.DealRcvData(buffer,curLeft+byteCnt);
 					
 			
@@ -109,10 +113,33 @@ void *UserServer::UserSerMain(void *arg)
 
 }
 
-
-void UserServer::DealCliMsg(char *buf,int len)
+void UserServer::sendAck()
 {
 
+}
+
+void UserServer::setAcceptFD(int fd)
+{
+	_acceptFD=fd;
+
+}
+
+#ifdef USER_SER_DBG
+void UserServer::DBG_FUNC(DealCliMsg)(char *buf,int len,char *des)
+#else
+void UserServer::DealCliMsg(char *buf,int len)
+#endif
+{
+	printf("Deal Cli Msg ");
+
+#ifdef USER_SER_DBG
+	printf("description:%s \n",des);
+#else
+	printf("\n");
+#endif
+
+
+	
 
 }
 
@@ -135,8 +162,12 @@ int UserServer::DealRcvData(char * buf,int len)
 	if(hdr->magic!=ntohs(0xabcd)){
 		printf("magic number don't match \n something is wrong ,drop the data\n");
 		incHdrMismatch();
-		
-		if(getHdrMismatch()>=10){
+		_bHdrPreHit=false;
+
+		if(getHdrMisCont()>=5){
+			printf("header mismatch happen continuation\n");
+
+		}else if(getHdrMismatch()>=10){
 			printf("header mismatch happen too many times \n");
 
 		}
@@ -147,6 +178,7 @@ int UserServer::DealRcvData(char * buf,int len)
 	}else{
 
 		printf("magic nub matches \n");
+		_bHdrPreHit=true;
 	}
 
 	if(ntohl(hdr->uDataLen)+BLOCKHEAD_SIZE>len){
@@ -170,7 +202,8 @@ int UserServer::DealRcvData(char * buf,int len)
 			left=left-(ntohl(hdr->uDataLen)+BLOCKHEAD_SIZE);
 			offset+=ADD_HDR_LEN(hdr->uDataLen);
 		}else{
-			// has a head but no enough data
+			// has no enough data for one msg . 
+			// just wait more data 
 
 			//left=ntohl(hdr->uDataLen)+BLOCKHEAD_SIZE-left;
 			//copy data to begin 

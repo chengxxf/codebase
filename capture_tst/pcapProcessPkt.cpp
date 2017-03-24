@@ -76,8 +76,15 @@ void PcapProcessPkt::selfProcessPkt(u_char *arg,const struct pcap_pkthdr * pkthd
 
 	u_int size_ip;
 	u_int size_tcp;
-	
+
+	//__sync_val_compare_and_swap(&i,1,0);	
+
 	ethernet = (struct sniff_ethernet *) (packet);
+
+	if(ethernet->ether_type!=htons(0x0800)){
+		printf(" not a ip packet \n");
+	}
+
 	ip=(struct sniff_ip *)(packet+SIZE_ETHERNET);
 	size_ip=IP_HL(ip)*4;
 	if(size_ip <12) {

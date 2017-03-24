@@ -11,7 +11,7 @@ ADDR = (HOST ,PORT)
 class BlockHead:
 
 	magic=0xabcd
-	sReserve1=0;
+	sSeqnu=0;
 	
 	u1Type=bytearray([0,0,0,0]);
 	u4Type=0;
@@ -49,10 +49,11 @@ class ConnectToSer:
 	
 			head=BlockHead()
 			head.u1Type[0]=1
+			head.sSeqnu=head.sSeqnu+1
 			
 			testData="ok"
 			head.uLen=len(data);
-			str1=struct.pack(format,head.magic,head.sReserve1,head.u1Type[0],head.u1Type[1],head.u1Type[2],head.u1Type[3],
+			str1=struct.pack(format,head.magic,head.sSeqnu,head.u1Type[0],head.u1Type[1],head.u1Type[2],head.u1Type[3],
 				head.uLen,head.uReserve1,head.uReserve2,head.uReserve3,data)
 
 			print str1

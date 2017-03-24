@@ -12,15 +12,30 @@
 typedef struct ST_PCAP_OBSERVER
 {
 	int obsvrId;
+	int hashBit;
+#define DST_PORT_BIT  1
+#define SRC_PORT_BIT  2
+#define DST_IP_BIT 	  3
+#define SRC_IP_BIT    4
+#define IP_PROT_BIT   5
+#define ETHER_TYPE_BIT 6
+#define DST_MAC_BIT   7
+#define SRC_MAC_BIT   8
 
 	int needLevl;
+	short module;
+	short postAction;
+
+	int socketId;
 	
 	int dstPort;
 	int srcPort;
 
 	int dstIp;
 	int srcIp;
-
+	
+	unsigned short ipProt;
+	unsigned short ether_type;
 	char dstMac[6];
 	char srcMac[6];
 

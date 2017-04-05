@@ -1,8 +1,9 @@
 .PHONY:clean
 
-OBJS=operator.o\
-	 optst.o\
-	 str_tst.o
+
+SRCS :=$(wildcard *.cpp)
+OBJS :=$(patsubst %cpp,%o,$(SRCS))
+
 all: $(OBJS)
 	g++ -o out $^
 optst.o: optst.cpp optst.h
@@ -18,3 +19,4 @@ str_tst.o:str_tst.cpp str_tst.h
 
 clean:
 	rm -rf *.o
+	rm out

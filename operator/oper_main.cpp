@@ -5,6 +5,10 @@
 #include <iterator>
 
 #include "str_tst.h"
+#include "cast_oper.h"
+#include "test.h"
+
+
 #include <stdarg.h>
 
 #define TST_CPLUS
@@ -91,8 +95,10 @@ void test_trace1()
 int main(int argc,char *argv[])
 {
 	printf("operator begin \n");
+	//test_u4();
 	test_pointer_def();
 	typename_test();
+    multiply_test(999,999);
 #ifdef TST_CPLUS
 	Sale_data data(1) ,data1(2),data2(3);
 	data.showPrice();
@@ -102,7 +108,10 @@ int main(int argc,char *argv[])
 #endif
 	test_struct();
     test_trace1();
-	
+    while(1){
+        sleep(2);
+    }	
+
 
 	return 0;
 }

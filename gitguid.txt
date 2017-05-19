@@ -26,3 +26,6 @@ You should be aware that if you do this, your github password will be stored in 
 Changing a remote's URL
 https://help.github.com/articles/changing-a-remote-s-url/
 ########################
+
+q:git produces Gtk-WARNING: cannot open display
+asw:unset SSH_ASKPASS

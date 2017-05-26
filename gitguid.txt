@@ -27,5 +27,12 @@ Changing a remote's URL
 https://help.github.com/articles/changing-a-remote-s-url/
 ########################
 
-q:git produces Gtk-WARNING: cannot open display
-asw:unset SSH_ASKPASS
+QUESTION:  git produces Gtk-WARNING: cannot open display
+ANSWER:    unset SSH_ASKPASS
+
+#######rebase branches to master##############
+git checkout master
+git pull
+git checkout local_branch_name
+git rebase master
+git push --force # force required if you've already pushed

@@ -1,0 +1,38 @@
+1.create a new repository on the command line
+git init
+git add README.md
+git commit -t "first commit"
+git remote add origin https://github.com/chengxxf/pthbase.git
+git push -u origin master
+
+
+2.push an existing repository from the command line
+git remote add origin https://github.com/chengxxf/pthbase.git
+git push -u origin master
+
+#################stackoverflow###################
+To definitely be able to login using https protocol, you should first set your authentication credential to the git Remote URI:
+
+git remote set-url origin https://yourusername@github.com/user/repo.git
+Then you'll be asked for a password when trying to git push.
+
+In fact, this is on the http authentication format. You could set a password too:
+
+https://youruser:password@github.com/user/repo.git
+You should be aware that if you do this, your github password will be stored in plaintext in your .git directory, which is obviously undesirable.
+###################################################
+
+#########################
+Changing a remote's URL
+https://help.github.com/articles/changing-a-remote-s-url/
+########################
+
+QUESTION:  git produces Gtk-WARNING: cannot open display
+ANSWER:    unset SSH_ASKPASS
+
+#######rebase branches to master##############
+git checkout master
+git pull
+git checkout local_branch_name
+git rebase master
+git push --force # force required if you've already pushed

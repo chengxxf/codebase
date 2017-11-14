@@ -1,0 +1,23 @@
+#!/bin/bash
+
+deactivate(){
+    if ! [ -z "{$_OLD_VIRTUAL_PS1}" ] ; then
+        PS1=$_OLD_VIRTUAL_PS1
+        export PS1
+        unset _OLD_VIRTUAL_PS1
+    fi  
+
+    unset SPARK_HOME
+
+    PATH=$LOGIN_PATH
+    export PATH
+}
+
+_OLD_VIRTUAL_PS1="$PS1"
+PS1="spark $PS1"
+
+SPARK_HOME=/home/xcheng/tools/spark-2.2.0-bin-hadoop2.7
+PATH=$SPARK_HOME/sbin:$LOGIN_PATH
+
+export PS1
+export PATH

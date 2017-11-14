@@ -1,14 +1,14 @@
 1.create a new repository on the command line <br>
-git init<br>
-git add README.md<br>
-git commit -t "first commit"<br>
-git remote add origin https://github.com/chengxxf/pthbase.git<br>
-git push -u origin master<br>
+>git init<br>
+>git add README.md<br>
+>git commit -t "first commit"<br>
+>git remote add origin https://github.com/chengxxf/pthbase.git<br>
+>git push -u origin master<br>
 
 
 2.push an existing repository from the command line<br>
-git remote add origin https://github.com/chengxxf/pthbase.git<br>
-git push -u origin master<br>
+>git remote add origin https://github.com/chengxxf/pthbase.git<br>
+>git push -u origin master<br>
 
 #################stackoverflow###################<br>
 To definitely be able to login using https protocol, you should first set your authentication credential to the git Remote URI:<br>
@@ -31,8 +31,8 @@ QUESTION:  git produces Gtk-WARNING: cannot open display<br>
 ANSWER:    unset SSH_ASKPASS<br>
 
 #######rebase branches to master##############<br>
-git checkout master<br>
-git pull<br>
-git checkout local_branch_name<br>
-git rebase master<br>
-git push --force # force required if you've already pushed<br>
+>git checkout master<br>
+>git pull<br>
+>git checkout local_branch_name<br>
+>git rebase master<br>
+>git push --force # force required if you've already pushed<br>

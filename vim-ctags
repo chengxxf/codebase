@@ -1,3 +1,14 @@
 find . -name "*.h" -o -name "*.asm" -o -name "*.cpp" > data.txt
  ctags -L -< data.txt
  scope -bkq -i data.txt
+ 
+ 
+ 假设当前目录下有 a,b,c 三个目录，里面都有一个 s.txt 文件。
+[caz28]~/temp$find .  -type f -name s.txt -print
+ ./b/s.txt
+ ./c/s.txt
+ ./a/s.txt
+要忽略 a 目录：
+[caz28]~/temp$find . -path ./a -prune -o -type f -name s.txt -print
+ ./b/s.txt
+ ./c/s.txt

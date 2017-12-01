@@ -1,0 +1,3 @@
+find . -name "*.h" -o -name "*.asm" -o -name "*.cpp" > data.txt
+ ctags -L -< data.txt
+ scope -bkq -i data.txt
